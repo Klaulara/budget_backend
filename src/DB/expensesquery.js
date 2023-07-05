@@ -8,7 +8,7 @@ const getExpenses = async () => {
         const result = await pool.query(SQLQuery);
         return result.rows;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 
@@ -21,7 +21,7 @@ const addExpenses = async (expenses) => {
         const result = await pool.query(SQLQuery);
         return result;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 
@@ -35,7 +35,7 @@ const editExpenses = async (expenses) => {
         const result = await pool.query(SQLQuery);
         return result;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 
@@ -48,7 +48,7 @@ const deleteExpense = async (id) => {
         const result = await pool.query(SQLQuery);
         return result;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 

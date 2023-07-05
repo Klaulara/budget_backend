@@ -8,7 +8,7 @@ const getCategory = async () => {
         const result = await pool.query(SQLQuery);
         return result.rows;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 
@@ -21,7 +21,7 @@ const addCategory = async (category) => {
         const result = await pool.query(SQLQuery);
         return result;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 
@@ -34,7 +34,7 @@ const editCategory = async (category) => {
         const result = await pool.query(SQLQuery);
         return result;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 
@@ -47,7 +47,7 @@ const deleteCategory = async (id) => {
         const result = await pool.query(SQLQuery);
         return result;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 
