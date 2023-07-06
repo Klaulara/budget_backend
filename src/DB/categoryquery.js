@@ -14,8 +14,8 @@ const getCategory = async () => {
 
 const addCategory = async (category) => {
     const SQLQuery = {
-        text: "INSERT INTO category (id, name, image) VALUES ($1, $2, $3) RETURNING *;",
-        values: [category.id, category.name, category.image],
+        text: "INSERT INTO category (name, image) VALUES ($1, $2) RETURNING *;",
+        values: [category.name, category.image],
     };
     try {
         const result = await pool.query(SQLQuery);

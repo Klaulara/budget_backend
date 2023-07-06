@@ -1,10 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const { getExpenses, addExpenses, editExpenses, deleteExpense } = require('../DB/expensesquery');
+const { getExpensesByBudgetId, getAllExpensesData, addExpenses, editExpenses, deleteExpense } = require('../DB/expensesquery');
 
 router.get('/expenses', async(req, res) => {
     try {
-        const result = await getExpenses();
+        const result = await getAllExpensesData();
+        res.send(result);
+    } catch (error) {
+        res.status(500).send({
+            error: `Something went wrong...${error}`,
+            code: 500
+        })
+    }
+});
+
+router.get('/expenses/:id', async(req, res) => {
+    const id = req.params.id;
+    try {
+        const result = await getExpensesByBudgetId(id);
         res.send(result);
     } catch (error) {
         res.status(500).send({

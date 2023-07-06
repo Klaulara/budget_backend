@@ -18,7 +18,6 @@ router.get('/budget', async(req, res) => {
 
 router.post('/budget', async(req, res) => {
     const budget = req.body;
-    budget.status = "active";
     budget.created_at = new Date();
     budget.updated_at = new Date();
     try {

@@ -14,8 +14,8 @@ const getBudget = async () => {
 
 const addBudget = async (budget) => {
     const SQLQuery = {
-        text: "INSERT INTO budget (id, name, value, status, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
-        values: [budget.id, budget.name, budget.value, budget.status, budget.created_at, budget.updated_at],
+        text: "INSERT INTO budget (name, value, status, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *;",
+        values: [budget.name, budget.value, budget.status, budget.created_at, budget.updated_at],
     };
     try {
         const result = await pool.query(SQLQuery);
