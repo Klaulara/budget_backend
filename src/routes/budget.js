@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { getBudget, addBudget, editBudget, deleteBudget } = require('../DB/budgetquery'); 
-
-const timeStampDate = require('../utils/functions')
+const { getBudget, addBudget, editBudget, deleteBudget } = require('../controllers/budgetcontroller'); 
 
 router.get('/budget', async(req, res) => {
     try {
         const result = await getBudget();
-        res.send(result);
+        res.status(200).send({
+            code: 200,
+            data: result
+        });
     }catch(error) {
         res.status(500).send({
             error: `Something went wrong...${error}`,
@@ -22,8 +23,8 @@ router.post('/budget', async(req, res) => {
     budget.updated_at = new Date();
     try {
         const result = await addBudget(budget);
-        res.send({
-            code: 200,
+        res.status(201).send({
+            code: 201,
             message: 'Budget added successfully',
         });
     }catch(error) {
@@ -41,7 +42,7 @@ router.put('/budget/:id', async(req, res) => {
     budget.updated_at = new Date();
     try {
         const result = await editBudget(budget);
-        res.send({
+        res.status(200).send({
             code: 200,
             message: 'Budget updated successfully',
         });
@@ -57,7 +58,7 @@ router.delete('/budget/:id', async(req, res) => {
     const id = req.params.id;
     try {
         const result = await deleteBudget(id);
-        res.send({
+        res.status(200).send({
             code: 200,
             message: 'Budget deleted successfully',
         });

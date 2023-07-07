@@ -9,6 +9,8 @@ const expenses = require('./src/routes/expenses');
 const category = require('./src/routes/category');
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false}));
+
 app.use('/api/v1', budget);
 app.use('/api/v1', expenses);
 app.use('/api/v1', category);

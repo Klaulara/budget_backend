@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const { addCategory, getCategory, editCategory, deleteCategory } = require('../DB/categoryquery');
+const { addCategory, getCategory, editCategory, deleteCategory } = require('../controllers/categorycontroller');
 
 router.get('/category', async(req, res) => {
     try {
         const result = await getCategory();
-        res.send(result);
+        res.status(200).send({
+            code: 200,
+            data: result
+        });
     } catch (error) {
         res.status(500).send({
             error: `Something went wrong...${error}`,
@@ -19,8 +22,8 @@ router.post('/category', async (req, res) => {
     const category = req.body;
     try {
         const result = await addCategory(category);
-        res.send({
-            code: 200,
+        res.status(201).send({
+            code: 201,
             message: 'Category added successfully',
         });
     } catch (error) {
@@ -37,7 +40,7 @@ router.put('/category/:id', async (req, res) => {
     category.id = id;
     try {
         const result = await editCategory(category);
-        res.send({
+        res.status(200).send({
             code: 200,
             message: 'Category updated successfully',
         });
@@ -53,7 +56,7 @@ router.delete('/category/:id', async (req, res) => {
     const id = req.params.id;
     try {
         const result = await deleteCategory(id);
-        res.send({
+        res.status(200).send({
             code: 200,
             message: 'Category deleted successfully',
         });
