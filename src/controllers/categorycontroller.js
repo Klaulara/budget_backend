@@ -12,6 +12,19 @@ const getCategory = async () => {
     }
 };
 
+const getCategorybyId = async(id) => {
+    const SQLQuery = {
+        text: "SELECT * FROM category WHERE id = $1;",
+        values: [id]
+    };
+    try {
+        const result = await pool.query(SQLQuery);
+        return result.rows[0];
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 const addCategory = async (category) => {
     const SQLQuery = {
         text: "INSERT INTO category (name, image) VALUES ($1, $2) RETURNING *;",
@@ -53,6 +66,7 @@ const deleteCategory = async (id) => {
 
 module.exports = {
     getCategory,
+    getCategorybyId,
     addCategory,
     editCategory,
     deleteCategory,

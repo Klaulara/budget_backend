@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getBudget, addBudget, editBudget, deleteBudget } = require('../controllers/budgetcontroller'); 
+const { getBudget, getBudgetbyId, addBudget, editBudget, deleteBudget } = require('../controllers/budgetcontroller'); 
 
 router.get('/budget', async(req, res) => {
     try {
@@ -26,6 +26,22 @@ router.post('/budget', async(req, res) => {
         res.status(201).send({
             code: 201,
             message: 'Budget added successfully',
+        });
+    }catch(error) {
+        res.status(500).send({
+            error: `Something went wrong...${error}`,
+            code: 500
+        })
+    }
+});
+
+router.get('/budget/:id', async(req, res) => {
+    const id = req.params.id;
+    try {
+        const result = await getBudgetbyId(id);
+        res.status(200).send({
+            code: 200,
+            data: result
         });
     }catch(error) {
         res.status(500).send({

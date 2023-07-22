@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { addCategory, getCategory, editCategory, deleteCategory } = require('../controllers/categorycontroller');
+const { addCategory, getCategory, editCategory, deleteCategory, getCategorybyId } = require('../controllers/categorycontroller');
 
 router.get('/category', async(req, res) => {
     try {
@@ -17,6 +17,22 @@ router.get('/category', async(req, res) => {
         })
     }
 });
+
+router.get('/category/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const result = await getCategorybyId(id);
+        res.status(200).send({
+            code: 200,
+            data: result
+        })
+    } catch (error) {
+        res.status(500).send({
+            error: `Something went wrong...${error}`,
+            code: 500
+        })
+    }
+})
 
 router.post('/category', async (req, res) => {
     const category = req.body;

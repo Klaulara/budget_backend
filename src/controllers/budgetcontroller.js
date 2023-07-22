@@ -12,6 +12,19 @@ const getBudget = async () => {
     }
 };
 
+const getBudgetbyId = async (id) => {
+    const SQLQuery = {
+        text: "SELECT * FROM budget WHERE id = $1;",
+        values: [id],
+    };
+    try {
+        const result = await pool.query(SQLQuery);
+        return result.rows;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 const addBudget = async (budget) => {
     const SQLQuery = {
         text: "INSERT INTO budget (name, value, status, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *;",
@@ -54,6 +67,7 @@ const deleteBudget = async (id) => {
 
 module.exports = {
     getBudget,
+    getBudgetbyId,
     addBudget,
     editBudget,
     deleteBudget,

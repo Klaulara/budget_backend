@@ -9,7 +9,7 @@ const budget = require('./src/routes/budget');
 const expenses = require('./src/routes/expenses');
 const category = require('./src/routes/category');
 
-const whitelist = ['http://localhost:8080']
+const whitelist = ['http://localhost:8080', 'http://localhost:3002']
 const corsOptions = {
     origin: (origin, callback) => {
         if(whitelist.indexOf(origin) !== -1 || !origin) {
@@ -25,7 +25,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 
-app.use('/api/v1', budget);
+app.use('/api/v1', budget); 
 app.use('/api/v1', expenses);
 app.use('/api/v1', category);
 
