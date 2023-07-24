@@ -17,7 +17,10 @@ This project uses postgreSQL as a database, you can set up a local database to r
 create table category (id serial primary key, name varchar not null, image varchar);
 ```
 ```
-create table budget (id serial primary key, name varchar not null, value int not null, status varchar not null, created_at date, updated_at date);
+create table users (id serial primary key, name varchar not null, email varchar not null, password varchar not null, created_at date, updated_at date);
+```
+```
+create table budget (id serial primary key, name varchar not null, value int not null, status varchar not null, user_id int not null, created_at date, updated_at date, foreign key (user_id) references users (id));
 ```
 ```
 create table expenses (id serial primary key, budget_id int not null, name varchar not null, value int not null, category_id int not null, created_at date, updated_at date, foreign key (budget_id) references budget (id), foreign key (catego
