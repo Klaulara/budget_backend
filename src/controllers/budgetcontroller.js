@@ -1,4 +1,4 @@
-const { pool } = require("./config");
+const { pool } = require("../config/configDB.js");
 
 const getBudget = async () => {
     const SQLQuery = {
