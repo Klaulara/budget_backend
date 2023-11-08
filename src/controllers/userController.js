@@ -1,39 +1,63 @@
 const { pool } = require("../config/configDB.js");
+const bcrypt = require("bcrypt");
 
-const getUsers = async () => {
+const getUsers =  async (req, res) => {
     const SQLQuery = {
         text: "SELECT * FROM users ORDER BY id;",
     };
     try {
         const result = await pool.query(SQLQuery);
-        return result.rows;
+        res.status(200).send({
+            code: 200,
+            data: result.rows,
+        });
     } catch (error) {
-        throw new Error(error);
+        res.status(500).send({
+            error: `Something went wrong...${error}`,
+            code: 500,
+        });
     }
 };
 
-const addUser = async (user) => {
-    const { name, email, password } = user;
+const addUser = async (req, res) => {
+    const { name, email, password } = req.body;
+    
+    const created_at = new Date();
+    const updated_at = new Date();
     if(!name || !email || !password) {
-        throw new Error("Please provide all required fields!");
+        return res.status(500).send({
+            error: "Please provide all required fields!",
+            code: 500
+        })
     }
+    const hashedPassword = await bcrypt.hash(password, 10);
     const emailQuery = {
         text: "SELECT * FROM users WHERE email = $1;",
         values: [email],
     };
     const duplicate = await pool.query(emailQuery);
     if(duplicate.rows.length > 0) {
-        throw new Error("Email already registered!");
+        return res.status(500).send({
+            error: "Email already registered!",
+            code: 500
+        })
     }
     const SQLQuery = {
         text: "INSERT INTO users (name, email, password, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *;",
-        values: [user.name, user.email, user.password, user.created_at, user.updated_at],
+        values: [name, email, hashedPassword, created_at, updated_at],
     };
     try {
         const result = await pool.query(SQLQuery);
-        return result;
+        return res.status(201).send({
+            code: 201,
+            message: "Successfully registered new user",
+            data: result.rows[0],
+        });
     } catch (error) {
-        throw new Error(error);
+        return res.status(500).send({
+            error: `Something went wrong...${error}`,
+            code: 500
+        })
     }
 }
 
