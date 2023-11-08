@@ -1,8 +1,8 @@
 const { pool } = require("../config/configDB.js");
 const bcrypt = require("bcrypt");
 
-const handleLogin = async (user) => {
-    const { email, password } = user;
+const handleLogin = async (req, res) => {
+    const { email, password } = req.body;
     if(!email || !password) {
         throw new Error("Please provide all required fields!");
     }
@@ -20,9 +20,16 @@ const handleLogin = async (user) => {
     };
     try {
         const result = await pool.query(SQLQuery);
-        return result.rows[0];
+        res.status(200).send({
+            code: 200,
+            message: "Successfully logged in",
+            data: result.rows[0],
+        });
     } catch (error) {
-        throw new Error(error);
+        res.status(500).send({
+            error: `Something went wrong...${error}`,
+            code: 500
+        })
     }
 }
 
